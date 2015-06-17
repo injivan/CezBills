@@ -27,6 +27,10 @@ public class BillsDownloader {
 	 */
 	public static void main(String[] args) {
 		try {
+			
+			 
+			 
+			
 			BillsDownloader window = new BillsDownloader();
 			window.open();
 		} catch (Exception e) {
