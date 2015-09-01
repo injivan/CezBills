@@ -19,8 +19,8 @@ public class billcez {
 	 * 		strHedar = "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 4.0.20506)"
 	 * 		Call Inet1.Execute("http://info.cezelectro.bg/scripts/info.dll/details?", "POST", strPostData, strHedar)
     */
-	
-	private static final String  CEZ_BILL_URL = "http://info.cezelectro.bg/scripts/info.dll/details?";
+											  //"http://info.cezelectro.bg/scripts/info.dll/details?";
+	private static final String  CEZ_BILL_URL = "https://cezelectro.bg/scripts/info.dll/details?";
 	private static final String  KLI_NOM = "kn=";
 	private static final String  KLI_KOD = "ok=";
 	private static final String  TIM_STM = "timestamp=";
@@ -31,15 +31,16 @@ public class billcez {
 	public void GetMyBill(String KliNom, String KliPIN) {
 		try {
 			CezHtmlParser pars = new CezHtmlParser();
-			pars.ParseHTML((docResp(KliNom,KliPIN))); 
+			pars.ParseHTML((docResp(KliNom,KliPIN)),KliPIN ); 
 			
-			String sName = KliNom.substring(KliNom.length()-5) + "_" + pars.getPeriod(0) ;
-			//String sLink = pars.getLink(0);//''.replace("pdf", "jpg");
-			//downloadUrl(sLink, sName+".pdf");
+			String sName = KliNom.substring(KliNom.length()-5);// + "_" + pars.getPeriod(0) ;
+			 
 			
-			String sLink1 = pars.getLink(0).replace("pdf", "png");
-			downloadUrl(sLink1, sName+".png");
-			
+			String sLink1 = pars.getLink(0);
+			if (sLink1.length()>0){
+				sLink1=sLink1.replace("pdf", "png");			
+				downloadUrl(sLink1, sName+".png");
+			}
 			//Now have to get the bill file	
 			//System.out.println("" + pars.getsLink(0));
 			
@@ -49,6 +50,7 @@ public class billcez {
 		}
 	}
 	private void downloadUrl(String sUrl, String pathname) {
+		if (sUrl.length()>0){
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			FileOutputStream myFileOutputStream = new FileOutputStream(pathname);
@@ -68,15 +70,20 @@ public class billcez {
 			}
 			//System.out.println("bytesRead = " + bytesRead + " offset = " + offset);
 			outputStream.writeTo(myFileOutputStream);
+			outputStream.close();
+			stream.close();
+			myFileOutputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 
+		}
 		}
 	}
 
 	private static String docResp(String kn, String ok) throws Exception {
 		
 		String sUrlParam =  KLI_NOM + kn + "&" + KLI_KOD + ok + "&" + TIM_STM + Calendar.getInstance().getTime();
+		sUrlParam = KLI_NOM + kn + "&" + KLI_KOD + ok +  "&useget=1&kl=2015";
 		
 		URLConnection cn1 = MyConn();
 		
@@ -120,8 +127,8 @@ public class billcez {
 	
 	private static String get_the_response(URLConnection conn){
         // Get the response
-        String sOut="";
-
+        //String sOut="";
+        StringBuffer sBuf=new StringBuffer();
         try{ 
             BufferedReader rd = null;
             InputStream myInputStream = conn.getInputStream();
@@ -133,15 +140,18 @@ public class billcez {
 
         	String line="";
             while ((line = rd.readLine()) != null) {
-                sOut=sOut+line;
+                //sOut=sOut+line;
+                sBuf.append(line);
             }                  
             rd.close();
+            myInputStream.close();
         }catch (Exception e) {
              e.getMessage();
              System.err.println("Unexpected exception");
              e.printStackTrace();
         }
-        return sOut;
+        //return sOut;
+        return sBuf.toString();
     }
 	
 	

@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -26,7 +28,7 @@ public class DB_TxtFile {
 		}
 		return currentAccount;
 	}
-	public String Row(int index) {
+	public String Coll(int index) {
 		String ret="";
 		switch (index) {
 		case 1:
@@ -46,7 +48,8 @@ public class DB_TxtFile {
 	}
 	private  void readFile() throws IOException {
 
-		BufferedReader br = new BufferedReader(new FileReader("Acaunts.in"));
+		BufferedReader br = new BufferedReader( new InputStreamReader( 
+						     new FileInputStream("Acaunts.txt" ),"Unicode") );
 		StringTokenizer token;
 		String strLine;
 		//Read File Line By Line
@@ -64,8 +67,6 @@ class OneCezAcaunt{
 	private String PIN="";
 	private String Text="";
 	
-	 
-
 	//public  OneCezAcaunt(){};
 		
 	public OneCezAcaunt(String ID, String PIN, String Text) {

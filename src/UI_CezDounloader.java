@@ -33,12 +33,12 @@ public class UI_CezDounloader extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("сметки");
+        setTitle("Ñ�Ð¼ÐµÑ‚ÐºÐ¸");
 
-        jButton1.setText("Сваляй");
+        jButton1.setText("Ð¡Ð²Ð°Ð»Ñ�Ð¹");
         jButton1.setToolTipText("");
 
-        jButton2.setText("Изход");
+        jButton2.setText("Ð˜Ð·Ñ…Ð¾Ð´");
         jButton2.setName("cmbExit"); // NOI18N
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -96,7 +96,16 @@ public class UI_CezDounloader extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbExit_Clicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbExit_Clicked
-         this.dispose();
+    	billcez b1 = new billcez();
+		
+		DB_TxtFile db1 = new DB_TxtFile();
+		for (int i = 0; i < db1.getCount(); i++) {
+			db1.muve(i);
+			b1.GetMyBill(db1.Coll(1), db1.Coll(2));
+						
+		}
+    	
+    	//this.dispose();
         
     }//GEN-LAST:event_cmbExit_Clicked
 
