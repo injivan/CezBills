@@ -99,7 +99,9 @@ public class UI_CezDounloader extends javax.swing.JFrame {
     	billcez b1 = new billcez();
 		
 		DB_TxtFile db1 = new DB_TxtFile();
-		for (int i = 0; i < db1.getCount(); i++) {
+		DB_Sqlite db2 = new DB_Sqlite();
+		 
+		for (int i = 110; i < db1.getCount(); i++) {
 			db1.muve(i);
 			b1.GetMyBill(db1.Coll(1), db1.Coll(2));
 						
