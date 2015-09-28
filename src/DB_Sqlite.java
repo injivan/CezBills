@@ -36,7 +36,7 @@ public class DB_Sqlite {
 	private void createTblAccounts(){
 		try {	//create Table Accounts
 			Statement stat = cn.createStatement();
-		    stat.executeUpdate("create table Accounts (ID, PIN, Text);");		
+		    stat.executeUpdate("create table Accounts (ID TEXT, PIN TEXT, Text TEXT);");		
 		} catch (Exception e) {
 		}	
 	}
